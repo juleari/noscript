@@ -124,6 +124,23 @@ ns.U.STATUS = {
 };
 
 /**
+ * Scenarios of ns.Updater.
+ * @enum {string}
+ */
+ns.U.SCENARIOS = {
+    /**
+     * Full scenario, used in browser
+     * @type {String}
+     */
+    RENDER: 'render',
+    /**
+     * Server scenario, used to get only html
+     * @type {String}
+     */
+    HTML: 'html'
+};
+
+/**
  * Execution statuses of ns.Updater.
  * @enum {string}
  */

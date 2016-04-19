@@ -290,13 +290,19 @@
         }
 
         //  TODO: Проверить, что не начался уже более новый апдейт.
-        return Vow.fulfill(this._renderUpdateTree());
+        return Vow.fulfill(this._renderUpdateTree(ns.U.SCENARIOS.HTML));
     };
 
-    ns.Update.prototype._renderUpdateTree = function() {
+    /**
+     * Генерирует html
+     * @param  {ns.U.SCENARIOS} scenario сценарий, в рамках которого работает метод
+     * @return {string}
+     */
+    ns.Update.prototype._renderUpdateTree = function(scenario) {
         this.startTimer('collectViews');
 
         var tree = {
+            'scenario': scenario,
             'views': {}
         };
         this.view._getUpdateTree(tree);
@@ -375,7 +381,7 @@
             return this._rejectWithStatus(this.STATUS.EXPIRED);
         }
 
-        var html = this._renderUpdateTree();
+        var html = this._renderUpdateTree(ns.U.SCENARIOS.RENDER);
         this.startTimer('html2node');
         var node = ns.html2node(html || '');
         this.stopTimer('html2node');

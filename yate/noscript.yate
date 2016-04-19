@@ -37,6 +37,10 @@ match / {
     </div>
 }
 
+match /[ /.scenario == 'html' ] {
+    apply .views.* ns-view
+}
+
 // делает chroot для view и генерит обертку с помощью ns-build-view
 // @private
 match .* ns-view {

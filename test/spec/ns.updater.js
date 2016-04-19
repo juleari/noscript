@@ -177,6 +177,10 @@ describe('ns.Updater', function() {
                 expect(arg).to.have.property('collectViews').that.is.at.least(0);
                 expect(arg).to.have.property('generateHTML').that.is.at.least(0);
             });
+
+            it('should have ns-view-app as a root node', function() {
+                expect(this.$node.hasClass('ns-view-app')).to.be.ok();
+            });
         });
 
         describe('render sync layout', function() {
@@ -333,6 +337,9 @@ describe('ns.Updater', function() {
                 this.serverUpdate.generateHTML()
                     .then(function(html) {
 
+                        var root = document.createElement('div');
+                        root.appendChild(ns.html2node(html));
+
                         ns.reset();
 
                         this.createTestApp();
@@ -343,7 +350,7 @@ describe('ns.Updater', function() {
                         ns.Model.get('mCollection').setData(this.response0.models[3].data);
 
                         this.clientUpdate = new ns.Update(this.view, ns.layout.page('syncLayout', {}), {});
-                        this.clientUpdate.reconstruct(ns.html2node(html))
+                        this.clientUpdate.reconstruct(root)
                             .then(function() {
                                 done();
                             });
@@ -386,6 +393,9 @@ describe('ns.Updater', function() {
                 this.serverUpdate.generateHTML()
                     .then(function(html) {
 
+                        var root = document.createElement('div');
+                        root.appendChild(ns.html2node(html));
+
                         var data1 = ns.Model.get('mSync1').getData();
                         var data2 = ns.Model.get('mSync2').getData();
 
@@ -401,7 +411,7 @@ describe('ns.Updater', function() {
 
                         // Firstly let's reconstruct our app, prerendered on a server
                         this.clientUpdate = new ns.Update(this.view, ns.layout.page('asyncLayout', {}), {});
-                        this.clientUpdate.reconstruct(ns.html2node(html))
+                        this.clientUpdate.reconstruct(root)
                             .then(function() {
 
                                 // And secondly, let's run a regular update, that conceivably
